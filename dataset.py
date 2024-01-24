@@ -27,7 +27,7 @@ class ImageCaptionDataset(Dataset):
     def __getitem__(self, index):
         # img_path = self.img_paths[index]
         # img = pil_loader(img_path)
-        img = Image.fromarray(self.qcnn_embed[self.img_indices[index]])
+        img = Image.fromarray(self.qcnn_embed[self.img_indices[index]]).convert('RGB')
         if self.transform is not None:
             img = self.transform(img)
 
