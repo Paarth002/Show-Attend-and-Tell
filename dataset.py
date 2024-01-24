@@ -34,8 +34,9 @@ class ImageCaptionDataset(Dataset):
         if self.split_type == 'train':
             return torch.FloatTensor(img), torch.tensor(self.captions[index])
 
-        matching_idxs = [idx for idx, path in enumerate(self.img_paths) if path == img_path]
-        all_captions = [self.captions[idx] for idx in matching_idxs]
+        # matching_idxs = [idx for idx, path in enumerate(self.img_paths) if path == img_path]
+        # all_captions = [self.captions[idx] for idx in matching_idxs]
+        all_captions = [self.captions[index]]
         return torch.FloatTensor(img), torch.tensor(self.captions[index]), torch.tensor(all_captions)
 
     def __len__(self):
