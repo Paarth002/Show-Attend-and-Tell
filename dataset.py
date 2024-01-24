@@ -3,7 +3,7 @@ import torch
 from collections import Counter
 from PIL import Image
 from torch.utils.data import Dataset
-
+import numpy as np
 
 def pil_loader(path):
     with open(path, 'rb') as f:
@@ -19,12 +19,15 @@ class ImageCaptionDataset(Dataset):
 
         self.word_count = Counter()
         self.caption_img_idx = {}
-        self.img_paths = json.load(open(data_path + '/{}_img_paths.json'.format(split_type), 'r'))
+        self.img_indices = json.load(open(data_path + '/{}_img_indices.json'.format(split_type), 'r'))
         self.captions = json.load(open(data_path + '/{}_captions.json'.format(split_type), 'r'))
 
+        self.qcnn_embed = np.load('/kaggle/input/qcnn-224-224-padded/qcnn-224-224-padded.npy')
+
     def __getitem__(self, index):
-        img_path = self.img_paths[index]
-        img = pil_loader(img_path)
+        # img_path = self.img_paths[index]
+        # img = pil_loader(img_path)
+        img = Image.fromarray(self.qcnn_embed[self.img_indices[index]])
         if self.transform is not None:
             img = self.transform(img)
 
